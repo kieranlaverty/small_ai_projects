@@ -3,3 +3,6 @@
 
 # Completed projects
     - N queen problem
+
+# In progress projects
+    - Connect four solver

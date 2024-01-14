@@ -1,21 +1,33 @@
+"""
+This class hold a game of connect four with a board size of n
 
 
-
-
+"""
 class board():
 
+    #constructor
     def __init__(self, n = 7) -> None:
+        #size of board
         self.n = n
+
+        #connect four board
         self.board = [[0 for _ in range(n)] for _ in range(n)]
+
+        #bool that hold red or yellow player turn
         self.red_turn = True
+
+        #hold the winner of the game to show the game is over
         self.winner = None
 
+        #move counter
         self.move = 0
 
         return
 
+    #places a piece given the column the piece was dropped in
     def place_piece(self, col):
         
+        #if the game has a winner then state it in the console and who won
         if self.winner != None:
             print("game is over")
             
@@ -26,25 +38,45 @@ class board():
 
             return
         
+        #loop to check where the piece be dropped
         for i in range(len(self.board)):
+
+            #if the square in the column is empty
             if self.board[self.n - 1 - i][col] == 0:
+
+                #if the turn is red place a one
                 if self.red_turn:
+
+                    #place a one in the square for red
                     self.board[self.n - 1 - i][col] = 1
+
+                    #change turn
                     self.red_turn = not self.red_turn
+
+                    #if there is a winner print the winner
                     if self.declare_winner(col, self.n - 1 - i, 1):
                         print("Red Wins")
+
                     break
+                #if the turn is yellow place a 2
                 else:
+                    #place a 2 in the square for yellow
                     self.board[self.n - 1 - i][col] = 2
+
+                    #change turn
                     self.red_turn = not self.red_turn
+
+                    #if there is a winner print the winner
                     if self.declare_winner(col, self.n - 1 - i, 2):
                         print("Yellow wins")
+
                     break 
         
         self.move += 1
-        
+
         return
     
+    #declare a winner given the location of the last piece placed
     def declare_winner(self, col, row, color):
         
         #checks the three squares below to see if there is a col victory
@@ -105,7 +137,10 @@ class board():
 
 
         return False
-        
+    
+
+    #function not finished
+    #returns the best move of the current board
     def best_move(self):
         if self.red_turn:
             color = 1
@@ -113,9 +148,11 @@ class board():
             color = 2
         
         possible_move = board()
-
+        moves = [None for _ in range(self.n)]
+        
         for col in range(self.n):
-            pass
+            possible_move.set_board(self.board, color)
+
 
     def set_board(self, board, color) -> None:
         self.board = board
