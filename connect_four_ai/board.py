@@ -150,8 +150,69 @@ class board():
         possible_move = board()
         moves = [None for _ in range(self.n)]
         
+        #for each possible move explore
         for col in range(self.n):
             possible_move.set_board(self.board, color)
+            moves[col] = possible_move.explore()
+
+    def explore(self):
+        pass
+
+
+    #places a piece given the column the piece was dropped in
+    def place_piece_comp(self, col):
+        
+        #if the game has a winner then state it in the console and who won
+        if self.winner != None:
+            
+            if self.winner == 1:
+                #[game is over, red won, total moves]
+                return [True, 1, self.move]
+            if self.winner == 2:
+                #[game is over, yellow won, total moves]
+                return [True, 2, self.move]
+
+            return
+        
+        #loop to check where the piece be dropped
+        for i in range(len(self.board)):
+
+            #if the square in the column is empty
+            if self.board[self.n - 1 - i][col] == 0:
+
+                #if the turn is red place a one
+                if self.red_turn:
+
+                    #place a one in the square for red
+                    self.board[self.n - 1 - i][col] = 1
+
+                    #change turn
+                    self.red_turn = not self.red_turn
+
+                    #if there is a winner print the winner
+                    if self.declare_winner(col, self.n - 1 - i, 1):
+                        #[game is over, red won, total moves]
+                        return [True, 1, self.move]
+
+                    break
+                #if the turn is yellow place a 2
+                else:
+                    #place a 2 in the square for yellow
+                    self.board[self.n - 1 - i][col] = 2
+
+                    #change turn
+                    self.red_turn = not self.red_turn
+
+                    #if there is a winner print the winner
+                    if self.declare_winner(col, self.n - 1 - i, 2):
+                        #[game is over, yellow won, total moves]
+                        return [True, 2, self.move]
+
+                    break 
+        
+        self.move += 1
+
+        return
 
 
     def set_board(self, board, color) -> None:
